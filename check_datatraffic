@@ -18,8 +18,8 @@ UNKNOWN = 3
 #Setting plugin cmd arguments
 parser = argparse.ArgumentParser(prog='check_networktraffic', usage='check_networktraffic -i {all | <Interface>} -c <Critical Value> -w <Warning Value>')
 parser.add_argument('-i', help='{all | <Interface>}', required=True)
-parser.add_argument('-c', help='<Critical Value> Evaluated as KB/s', required=True)
-parser.add_argument('-w', help='<Warning Value> Evaluated as KB/s', required=True)
+parser.add_argument('-c', help='<Critical Value> Evaluated as GB/h', required=True)
+parser.add_argument('-w', help='<Warning Value> Evaluated as GB/h', required=True)
 args = vars(parser.parse_args())
 
 #Checking arguments
@@ -57,21 +57,21 @@ def getTraf(iface):
     if matchediface == 0:
         print('-i value should be "all" or a valid network interface')
         exit(UNKNOWN)
-    return counter / 1024
+    return counter / 1024 / 1024 / 1024
 
 def main():
     old = getTraf(nic)
-    time.sleep(1)
+    time.sleep(3600)
     new = getTraf(nic)
     traf = new - old
     if traf >= critical:
-        print('Critical: {} KB/s'.format("%.2f" % traf))
+        print('Critical: {} GB/h'.format("%.2f" % traf))
         exit(CRITICAL)
     elif traf >= warning:
-        print('Warning: {} KB/s'.format("%.2f" % traf))
+        print('Warning: {} GB/h'.format("%.2f" % traf))
         exit(WARNING)
     else:
-        print('Ok: {} KB/s'.format("%.2f" % traf))
+        print('Ok: {} GB/h'.format("%.2f" % traf))
         exit(OK)
 
 #Calling main() function
