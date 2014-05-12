@@ -3,7 +3,7 @@ __author__ = 'Mahmoud Adel <mahmoud.adel2@gmail.com>'
 __version__ = 0.1
 
 '''
-Simple Nagios NRPE plugin to monitor the network traffic rate
+Simple Nagios NRPE plugin to monitor the network traffic rate for one hour (require updating the NRPE command timeout)
 '''
 
 import argparse
